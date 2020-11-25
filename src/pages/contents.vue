@@ -197,6 +197,7 @@ export default {
   width: 100%;
   height: calc(100vh - 50px);
   overflow: auto;
+  background: white;
 }
 
 .contents-wrapper {
