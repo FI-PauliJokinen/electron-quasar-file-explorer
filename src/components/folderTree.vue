@@ -53,7 +53,6 @@ export default {
 
   mounted () {
     this.selected = this.folder
-
     this.$root.$on('expand-tree', this.expandTree)
   },
 
@@ -68,18 +67,27 @@ export default {
 
     // this comes from the parent
     folder () {
+      console.log('folderTree::folder changed:', this.selected)
       this.selected = this.folder
       this.expandTree(this.folder)
     },
 
     selected () {
-      // console.log('folderTree::selected changed:', this.selected)
+      console.log('folderTree::selected changed:', this.selected)
+      console.log('folderTree::selected this.folder:', this.folder)
+      if (this.selected == null) {
+        this.selected = this.folder
+      }
       this.$emit('selected', this.selected)
+      console.log('folderTree::selected fixed to:', this.selected)
     }
   },
 
   methods: {
     expandTree (absolutePath) {
+      // time reporting
+      const startTime = process.hrtime.bigint()
+
       // get parts for the path
       const parts = absolutePath.split(path.sep)
       let path2 = ''
@@ -118,12 +126,18 @@ export default {
               else {
                 this.$nextTick(() => {
                   this.$root.$emit('expand-tree', absolutePath)
+                  console.log(`folderTree nextTick absolutePath: ${absolutePath}`)
                 })
               }
             }
           }
         }
       }
+      // time reporting
+      const endTime = process.hrtime.bigint()
+      console.log(`Folder scan in ${Number((endTime - startTime) / 1000n) / 1000000} seconds`)
+      console.log(`selected is: ${this.selected}`)
+      console.log(`this folder is: ${this.folder}`)
     }
   }
 }

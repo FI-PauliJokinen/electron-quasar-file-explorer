@@ -137,12 +137,14 @@ export default {
     // when a node is single-clicked
     onClick (node) {
       this.selectedNode = node
+      console.log('contents.vue onClick')
       this.$emit('click', node)
     },
 
     // when a node is double-clicked
     onDblClick (node) {
       this.selectedNode = node
+      console.log('contents.vue onDblClick')
       // eslint-disable-next-line vue/custom-event-name-casing
       this.$emit('dblClick', node)
     },
