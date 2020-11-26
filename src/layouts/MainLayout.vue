@@ -136,6 +136,20 @@ export default {
       this.rootDir.push(...this.getFolders(this.selectedFolder))
     }
 
+    // OS system information to console log
+    // console.log(process.resourceUsage())
+    // console.log(process.memoryUsage())
+    // console.log(process.arch)
+    // console.log(process.versions)
+    // console.log(process.release)
+    // console.log(process.platform)
+    // console.log(process.execPath)
+    // console.log(process.execArgv)
+    // console.log(process.argv0)
+    // console.log(process.env)
+    // console.log(process.cwd())
+    // console.log(process.config)
+
     this.$root.$on('rescan-current-folder', this.rescanCurrentFolder)
   },
 
@@ -145,6 +159,7 @@ export default {
 
   watch: {
     selectedFolder (newFolder, oldFolder) {
+      console.log('MainLayout.vue watch selected folder')
       // The User can de-select a folder, in which case
       // value will be null, so use root folder
       if (!newFolder) {
@@ -168,7 +183,7 @@ export default {
     },
 
     onShortcutSelected (type) {
-      // console.log('onShortcutSelected type:', type)
+      console.log('onShortcutSelected type:', type)
       const absolutePath = app.getPath(type)
       this.setSelectedFolder(absolutePath)
     },
@@ -213,10 +228,12 @@ export default {
       // on single-clicks we don't do anything here
       // if we wanted to drill-down into folders, we
       // can call this.onDblClicked function.
+      console.log('MainLayout.vue onClicked')
     },
 
     onDblClicked (node) {
       // This causes a drill-down if it's a folder
+      console.log('MainLayout.vue onDblClicked')
       if (node.data.isDir) {
         this.setSelectedFolder(node.nodeKey)
       }
@@ -270,6 +287,12 @@ export default {
           this.selectedFolder += path.sep
         }
       }
+    },
+
+    onFileSelected (node) {
+      // Do nothing at the moment...
+      // Should give information on the node or construct a list of selected node that would show themselves selected?
+      console.log(node)
     },
 
     getFolders (absolutePath) {
